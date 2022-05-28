@@ -19,7 +19,7 @@ const PlanetHeader = ({ backBtn, title = "THE PLANETS" }) => {
                     <AntDesign name="left" size={24} color="white" />
                 </Pressable>
             )}
-            <Text preset="h2">{title}</Text>
+            <Text preset="h2" style={styles.title}>{title}</Text>
         </View>
     );
 }
@@ -35,4 +35,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
+    title: {
+        textTransform: 'uppercase'
+    }
 })

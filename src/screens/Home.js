@@ -6,8 +6,34 @@ import { PLANET_LIST } from '../data/planet-list';
 import { colors } from '../theme/colors';
 import { spacing } from '../theme/spacing';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+
+const PlanetItem = ({ item }) => {
+    const { name, color } = item;
+    const navigation = useNavigation();
+    return (
+        <Pressable
+            onPress={() => {
+                navigation.navigate("Details", { planet: item });
+            }}
+            style={styles.item}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={[styles.circle, { backgroundColor: color }]} />
+                <Text preset='h4' style={styles.itemName}>{name}</Text>
+            </View>
+            <AntDesign name="right" size={18} color="white" />
+        </Pressable>
+    )
+}
 
 const Home = ({ navigation }) => {
+
+    const renderItem = ({ item }) => {
+        return (
+            <PlanetItem item={item} />
+        );
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <PlanetHeader />
@@ -16,21 +42,7 @@ const Home = ({ navigation }) => {
                 contentContainerStyle={styles.list}
                 data={PLANET_LIST}
                 keyExtractor={(item) => item.name}
-                renderItem={({ item }) => {
-                    return (
-                        <Pressable
-                            onPress={() => {
-                                navigation.navigate("Details", { planet: item });
-                            }}
-                            style={styles.item}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <View style={[styles.circle, { backgroundColor: item.color }]} />
-                                <Text preset='h4' style={styles.itemName}>{item.name}</Text>
-                            </View>
-                            <AntDesign name="right" size={18} color="white" />
-                        </Pressable>
-                    )
-                }}
+                renderItem={renderItem}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
             />
         </SafeAreaView>
